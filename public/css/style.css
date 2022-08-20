@@ -1,0 +1,31 @@
+.login-container {
+  background: url('/images/triangles-1430105_1280.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.login-form,
+.add-todo {
+  max-width: 400px;
+  background-color: rgba(240, 248, 255, 0.562);
+}
+
+.todo-list {
+  background-color: rgba(0, 0, 0, 0.219);
+}
+.todo-form {
+  background-image: url('/images/triangles-1430105_1280.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+form {
+  max-width: 400px;
+}
+
+#nameForm, #msgForm{
+    width: 400px;
+}
+

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+
+    <title>Explore Socket.IO</title>
+</head>
+
+<body class="">
+    <h1 class="text-center bg-dark text-light pb-2">Explore Socket.IO</h1>
+    <ul id="ul">
+
+    </ul>
+    <form action="" id="nameForm" class="input-group container">
+        <input type="text" class="form-control mb-3" placeholder="Enter your name">
+        <input type="submit" value="Send" class="btn btn-primary mb-3">
+    </form>
+
+    <form action="" id="msgForm" class="input-group container">
+        <input type="text" class="form-control" placeholder="Enter your message" class="btn btn-primary">
+        <input type="submit" value="Send" class="btn btn-primary">
+    </form>
+
+
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const msgForm = document.getElementById("msgForm");
+        const nameForm = document.getElementById("nameForm");
+        msgForm.hidden = true;
+        var socket = io();
+
+        socket.on('receive-msg', function (name, msg) {
+            displayMessage(name, msg)
+        })
+
+        socket.on('getName', () => {
+            nameForm.addEventListener('submit', (event) => {
+                event.preventDefault();
+                const name = nameForm[0].value
+                if (!name) return;
+                socket.emit('setName', name, () => {
+                    nameForm.hidden = true;
+                    msgForm.hidden = false;
+                });
+                nameForm[0].value = ''
+            });
+        })
+
+        msgForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+            const msg = msgForm[0].value
+            if (!msg) return;
+            socket.emit('new-message', msg, () => {
+                displayMessage("You", msg)
+            });
+            msgForm[0].value = ''
+        });
+
+
+        function displayMessage(name, msg) {
+            const ul = document.getElementById('ul');
+            const li = document.createElement('li');
+            li.textContent = name + ": " + msg;
+            ul.appendChild(li);
+        }
+
+    </script>
+</body>
+
+</html>
